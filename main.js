@@ -59,13 +59,13 @@ class Ball{
             this.velocity[1] *= -1*1/2
         }
 
-        //bounce off left and right and lose some velocity
-        if(!(this.radius < this.pos[0])){
-            this.pos[0] = this.radius
-            this.velocity[0] *= -1*7/10
-        } else if(!(this.pos[0] < c.width-this.radius)){
+        //loop around
+        if(!(-this.radius < this.pos[0])){
             this.pos[0] = c.width-this.radius
-            this.velocity[0] *= -1*7/10
+            // this.velocity[0] *= -1*7/10
+        } else if(!(this.pos[0] < c.width+this.radius)){
+            this.pos[0] = this.radius
+            // this.velocity[0] *= -1*7/10
         }
 
         //apply gravity if in the air
@@ -73,12 +73,12 @@ class Ball{
             this.velocity[1] += this.gravity
         } else {
             //lose speed from rolling on the ground
-            if (this.velocity[0] < .5 && this.velocity[0] > -.5){
+            if (this.velocity[0] < .2 && this.velocity[0] > -.2){
                 this.velocity[0] = 0
             } else if (this.velocity[0] > 0){
-                this.velocity[0] -= .5
+                this.velocity[0] -= .4
             } else if (this.velocity[0] < 0){
-                this.velocity[0] += .5
+                this.velocity[0] += .4
             }
         }
     }
@@ -95,21 +95,28 @@ class Ball{
 //make the instance of the ball
 const ball = new Ball(500,100)
 
-//listen for keypresses and add force
+//listen for keypresses and remember what keys are pressed
+var keys = {
+    w: false,
+    a: false,
+    d: false
+}
 document.addEventListener('keydown', e => {
-    if(e.key=='w' && ball.pos[1] > c.height-(ball.radius+5)){
-        ball.AddForce(0, -20)
-    }
-    if(e.key=='a' && ball.velocity[0] > -ball.termV){
-        ball.AddForce(-1, 0)
-    }
-    if(e.key=='d' && ball.velocity[0] < ball.termV){
-        ball.AddForce(11, 0)
-    }
+    if(e.key=='w') keys.w = true
+    if(e.key=='a') keys.a = true
+    if(e.key=='d') keys.d = true
+})
+document.addEventListener('keyup', e => {
+    if(e.key=='w') keys.w = false
+    if(e.key=='a') keys.a = false
+    if(e.key=='d') keys.d = false
 })
 
 //draw and move the ball in the game loop
 function draw(){
+    if(keys.w && ball.pos[1] > c.height-(ball.radius+5)) ball.AddForce(0, -20)
+    if(keys.a && ball.velocity[0] > -ball.termV) ball.AddForce(-1, 0)
+    if(keys.d && ball.velocity[0] < ball.termV) ball.AddForce(1, 0)
     ball.move()
     ball.draw()
 }
