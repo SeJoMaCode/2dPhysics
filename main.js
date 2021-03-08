@@ -85,7 +85,7 @@ class Ball{
 
     //draw the ball
     draw(){
-        ctx.fillStyle = '#000'
+        ctx.fillStyle = '#fff'
         ctx.beginPath()
         ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2*Math.PI)
         ctx.fill()
@@ -114,6 +114,9 @@ document.addEventListener('keyup', e => {
 
 //draw and move the ball in the game loop
 function draw(){
+    ctx.fillStyle = '#000'
+    ctx.fillRect(0,0,c.width,c.height)
+
     if(keys.w && ball.pos[1] > c.height-(ball.radius+5)) ball.AddForce(0, -20)
     if(keys.a && ball.velocity[0] > -ball.termV) ball.AddForce(-1, 0)
     if(keys.d && ball.velocity[0] < ball.termV) ball.AddForce(1, 0)
