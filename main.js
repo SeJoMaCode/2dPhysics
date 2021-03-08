@@ -61,10 +61,10 @@ class Ball{
 
         //loop around
         if(!(-this.radius < this.pos[0])){
-            this.pos[0] = c.width-this.radius
+            this.pos[0] = c.width+this.radius
             // this.velocity[0] *= -1*7/10
         } else if(!(this.pos[0] < c.width+this.radius)){
-            this.pos[0] = this.radius
+            this.pos[0] = -this.radius
             // this.velocity[0] *= -1*7/10
         }
 
