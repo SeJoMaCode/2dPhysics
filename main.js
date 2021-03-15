@@ -65,9 +65,9 @@ class Ball{
         if (this.velocity[0] < .2 && this.velocity[0] > -.2){
             this.velocity[0] = 0
         } else if (this.velocity[0] > 0){
-            this.velocity[0] -= .2
+            this.velocity[0] -= .3
         } else if (this.velocity[0] < 0){
-            this.velocity[0] += .2
+            this.velocity[0] += .3
         }
 
         if (this.y > c.height-this.radius){
@@ -88,7 +88,7 @@ class Ball{
     }
 }
 //make the instance of the ball
-const ball = new Ball(500,100)
+const ball = new Ball(0,1000)
 
 class Platform {
     constructor(x,y,w,h){
@@ -116,21 +116,26 @@ class Platform {
 }
 
 const platforms = []
-platforms.push(new Platform(600, 800, 100, 25))
-platforms.push(new Platform(750, 850, 100, 25))
+platforms.push(new Platform(600, 800, 125, 25))
+platforms.push(new Platform(800, 700, 125, 25))
+platforms.push(new Platform(1000, 600, 100, 25))
+platforms.push(new Platform(900, 400, 100, 25))
+platforms.push(new Platform(800, 350, 100, 25))
+platforms.push(new Platform(550, 350, 100, 25))
+platforms.push(new Platform(400, 500, 100, 25))
 
 class Coin {
     constructor(x,y,w,h){
         this.x = x
         this.y = y
-        this.width = 10
-        this.height = 10
+        this.width = 20
+        this.height = 20
     }
 
     handleCollision(obj){
         const cx = this.x + this.width / 2, cy = this.y - this.height / 2;
         const px = ball.x, py = ball.y + ball.radius; 
-        if(Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)) < ball.radius){
+        if(Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)) < ball.radius + this.width/2){
             obj.points++
             return true
         } else {
@@ -145,8 +150,13 @@ class Coin {
 }
 
 const coins = []
-coins.push(new Coin(645, 750))
-coins.push(new Coin(795, 800))
+coins.push(new Coin(640, 750))
+coins.push(new Coin(840, 650))
+coins.push(new Coin(1040, 550))
+coins.push(new Coin(940, 350))
+coins.push(new Coin(840, 300))
+coins.push(new Coin(590, 300))
+coins.push(new Coin(440, 450))
 
 //listen for keypresses and remember what keys are pressed
 var keys = {
@@ -188,7 +198,7 @@ function draw(){
     ctx.font = '48px Arial';
     ctx.fillText(`${ball.points} Points`, 10, 50);
 
-    if(ball.points >= 2){
+    if(ball.points >= 7){
         ctx.textAlign = 'center'
         ctx.fillText('You Win', c.width/2, c.height/2);
     }
